@@ -1,0 +1,55 @@
+Func _Notify_Set($vJust, $iCol = -1, $iBkCol = -1, $sFont_Name = "", $fSlide = False)
+
+    ; Set parameters
+    Switch $vJust
+        Case Default
+            For $i = 0 To 3
+                $aNotify_Settings[1][$i] = $aNotify_Settings[0][$i]
+            Next
+            Return
+        Case 0, 1, 2
+            $aNotify_Settings[1][0] = $vJust
+        Case Else
+            Return SetError(1, 1, 0)
+    EndSwitch
+
+    Switch $iCol
+        Case Default
+            $aNotify_Settings[1][1] = $aNotify_Settings[0][1]
+        Case 0 To 0xFFFFFF
+            $aNotify_Settings[1][1] = $iCol
+        Case -1
+            ; Do nothing
+        Case Else
+            Return SetError(1, 2, 0)
+    EndSwitch
+
+    Switch $iBkCol
+        Case Default
+            $aNotify_Settings[1][2] = $aNotify_Settings[0][2]
+        Case 0 To 0xFFFFFF
+            $aNotify_Settings[1][2] = $iBkCol
+        Case -1
+            ; Do nothing
+        Case Else
+            Return SetError(1, 3, 0)
+    EndSwitch
+
+    Switch $sFont_Name
+        Case Default
+            $aNotify_Settings[1][3] = $aNotify_Settings[0][3]
+        Case ""
+            ; Do nothing
+        Case Else
+            If IsString($sFont_Name) Then
+                $aNotify_Settings[1][3] = $sFont_Name
+            Else
+                Return SetError(1, 4, 0)
+            EndIf
+    EndSwitch
+
+    If $fSlide = True Then
+        $aNotify_Settings[0][4] = True
+    Else
+        $aNotify_Settings[0][4] = False
+    EndIf
